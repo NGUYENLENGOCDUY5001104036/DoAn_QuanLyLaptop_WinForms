@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
-using System.Data.Linq; // <-- Thêm thư viện này
+using System.Data.Linq; // linq 
 
 namespace QuanLyBanLaptop_DAL
 {
@@ -17,7 +17,7 @@ namespace QuanLyBanLaptop_DAL
             connectionString = ConfigurationManager.ConnectionStrings["QuanLyBanLaptop_DAL.Properties.Settings.QuanLyBanLaptopConnectionString"].ConnectionString;
         }
 
-        // --- HÀM 1: LOGIN (Bạn đã có) ---
+        // --- HÀM 1: LOGIN ---
         public User Login(string username, string password)
         {
             using (DatabaseDataContext context = new DatabaseDataContext(connectionString))
@@ -62,7 +62,6 @@ namespace QuanLyBanLaptop_DAL
                 context.SubmitChanges();
             }
         }
-
         // --- HÀM 6: CẬP NHẬT USER ---
         public void UpdateUser(User userToUpdate)
         {
@@ -74,6 +73,7 @@ namespace QuanLyBanLaptop_DAL
                     existingUser.FullName = userToUpdate.FullName;
                     existingUser.Username = userToUpdate.Username;
                     existingUser.Role = userToUpdate.Role;
+                    existingUser.Email = userToUpdate.Email; // <-- THÊM DÒNG NÀY
 
                     // Chỉ cập nhật mật khẩu nếu nó không rỗng
                     if (!string.IsNullOrEmpty(userToUpdate.PasswordHash))
@@ -99,8 +99,6 @@ namespace QuanLyBanLaptop_DAL
             }
         }
 
-        // ... (Bạn đã có hàm DeleteUser() ở trên) ...
-
         // HÀM MỚI 8: Đổi mật khẩu
         public bool ChangePassword(int userID, string oldPassword, string newPassword)
         {
@@ -111,7 +109,6 @@ namespace QuanLyBanLaptop_DAL
                 if (user == null) return false;
 
                 // 2. Kiểm tra mật khẩu cũ
-                // (Giả sử chúng ta đang lưu plain text, nên so sánh trực tiếp)
                 if (user.PasswordHash != oldPassword)
                 {
                     // Ném lỗi để BUS bắt
@@ -125,7 +122,6 @@ namespace QuanLyBanLaptop_DAL
             }
         }
 
-        // ... (Bạn đã có hàm ChangePassword() ở trên) ...
 
         // HÀM MỚI 9: Cập nhật thông tin (Tên, Ảnh)
         public void UpdateProfileInfo(int userID, string newFullName, string newAvatarPath)
@@ -146,8 +142,6 @@ namespace QuanLyBanLaptop_DAL
                 }
             }
         }
-
-        // ... (Bạn đã có hàm ChangePassword() ở trên) ...
 
         // HÀM MỚI 10: Tìm user bằng Tên đăng nhập VÀ Email
         public User GetUserByUsernameAndEmail(string username, string email)

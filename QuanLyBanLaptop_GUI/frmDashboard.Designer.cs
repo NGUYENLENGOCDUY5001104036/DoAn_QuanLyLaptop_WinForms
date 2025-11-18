@@ -71,8 +71,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(800, 450);
-            this.splitContainer1.SplitterDistance = 386;
+            this.splitContainer1.Size = new System.Drawing.Size(825, 564);
+            this.splitContainer1.SplitterDistance = 398;
             this.splitContainer1.TabIndex = 0;
             // 
             // chartSales
@@ -88,7 +88,7 @@
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             this.chartSales.Series.Add(series1);
-            this.chartSales.Size = new System.Drawing.Size(386, 450);
+            this.chartSales.Size = new System.Drawing.Size(398, 564);
             this.chartSales.TabIndex = 0;
             this.chartSales.Text = "chart1";
             // 
@@ -106,8 +106,8 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.dgvInventoryDetails);
-            this.splitContainer2.Size = new System.Drawing.Size(410, 450);
-            this.splitContainer2.SplitterDistance = 368;
+            this.splitContainer2.Size = new System.Drawing.Size(423, 564);
+            this.splitContainer2.SplitterDistance = 461;
             this.splitContainer2.TabIndex = 0;
             // 
             // chartInventory
@@ -123,7 +123,7 @@
             series2.Legend = "Legend1";
             series2.Name = "Series1";
             this.chartInventory.Series.Add(series2);
-            this.chartInventory.Size = new System.Drawing.Size(410, 368);
+            this.chartInventory.Size = new System.Drawing.Size(423, 461);
             this.chartInventory.TabIndex = 0;
             this.chartInventory.Text = "chart1";
             this.chartInventory.MouseClick += new System.Windows.Forms.MouseEventHandler(this.chartInventory_MouseClick);
@@ -146,7 +146,7 @@
             this.dgvInventoryDetails.RowHeadersWidth = 62;
             this.dgvInventoryDetails.RowTemplate.Height = 28;
             this.dgvInventoryDetails.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvInventoryDetails.Size = new System.Drawing.Size(410, 78);
+            this.dgvInventoryDetails.Size = new System.Drawing.Size(423, 99);
             this.dgvInventoryDetails.TabIndex = 0;
             // 
             // colSerialNumber
@@ -201,7 +201,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(825, 564);
             this.Controls.Add(this.splitContainer1);
             this.Name = "frmDashboard";
             this.Text = "Bảng điều khiển (Dashboard)";

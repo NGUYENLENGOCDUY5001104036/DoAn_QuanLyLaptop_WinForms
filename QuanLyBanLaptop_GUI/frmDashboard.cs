@@ -21,25 +21,18 @@ namespace QuanLyBanLaptop_GUI
             InitializeComponent();
             reportBUS = new ReportBUS();
 
-            // ▼▼▼ THÊM DÒNG NÀY ▼▼▼
             dgvInventoryDetails.AutoGenerateColumns = false;
         }
 
-        // Sự kiện Form_Load (NHỚ NỐI DÂY BẰNG TAY!)
-        // Sự kiện Form_Load (NHỚ NỐI DÂY BẰNG TAY!)
         private void frmDashboard_Load(object sender, EventArgs e)
         {
-            // =======================================================
-            // ▼▼▼ THÊM KHỐI PHÂN QUYỀN NÀY VÀO ▼▼▼
-            // =======================================================
+            // KHỐI PHÂN QUYỀN 
             if (Program.CurrentUser.Role == "Staff")
             {
                 // Nếu là Nhân viên (Staff)
                 // Ẩn cả 2 biểu đồ (hoặc 1 trong 2)
-                splitContainer1.Panel1.Visible = false; // Ẩn Panel chứa biểu đồ Doanh thu
-                splitContainer1.Panel2.Visible = false; // Ẩn Panel chứa biểu đồ Tồn kho
-
-                // (Bạn có thể thêm 1 Label "Chào mừng..." vào giữa form)
+                splitContainer1.Panel1.Visible = false;
+                splitContainer1.Panel2.Visible = false; 
             }
             else
             {
@@ -65,16 +58,14 @@ namespace QuanLyBanLaptop_GUI
                 chartSales.ChartAreas[0].AxisY.Title = "Doanh thu (VNĐ)";
                 chartSales.ChartAreas[0].AxisX.LabelStyle.Format = "dd/MM"; // Format ngày
                 chartSales.Titles.Add("Doanh thu 30 ngày qua"); // Thêm tiêu đề
-
-                // ▼▼▼ THÊM DÒNG NÀY VÀO ▼▼▼
                 chartSales.ChartAreas[0].AxisY.LabelStyle.Format = "N0"; // Format số thành "150,000,000"
 
                 // 3. Tạo một Series (dòng dữ liệu) mới
                 Series series = new Series("Doanh thu")
                 {
-                    ChartType = SeriesChartType.Spline, // <-- ĐỔI THÀNH "Spline"
-                    MarkerStyle = MarkerStyle.Circle, // Thêm dòng này để thấy rõ các điểm
-                    MarkerSize = 8,                 // Thêm dòng này
+                    ChartType = SeriesChartType.Spline, 
+                    MarkerStyle = MarkerStyle.Circle,
+                    MarkerSize = 8,                
                     XValueMember = "Date",
                     YValueMembers = "TotalSales",
                     IsValueShownAsLabel = true
@@ -98,19 +89,15 @@ namespace QuanLyBanLaptop_GUI
         {
             try
             {
-                // 1. Lấy dữ liệu (như cũ)
+                // 1. Lấy dữ liệu
                 var stockData = reportBUS.GetStockByBrand();
 
                 // 2. Cấu hình
                 chartInventory.Series.Clear();
-
-                // ▼▼▼ SỬA TIÊU ĐỀ Ở ĐÂY ▼▼▼
                 string homNay = DateTime.Now.ToString("dd/MM/yyyy");
                 chartInventory.Titles.Add($"Tỷ lệ Tồn kho (Tính đến {homNay})");
-
-                // ▼▼▼ THÊM 2 DÒNG NÀY ĐỂ BẬT BẢNG CHÚ THÍCH (LEGEND) ▼▼▼
-                chartInventory.Legends[0].Enabled = true;
-                chartInventory.Legends[0].Docking = Docking.Right; // Đặt nó ở bên phải
+                chartInventory.Legends[0].Enabled = true; // chú thích
+                chartInventory.Legends[0].Docking = Docking.Right; 
 
                 // 3. Tạo Series
                 Series series = new Series("Tồn kho")
@@ -119,11 +106,7 @@ namespace QuanLyBanLaptop_GUI
                     XValueMember = "Brand",
                     YValueMembers = "StockCount",
                     IsValueShownAsLabel = true, // Hiển thị nhãn trên biểu đồ
-
-                    // ▼▼▼ SỬA DÒNG NÀY ĐỂ HIỆN % ▼▼▼
                     Label = "#VALX (#PERCENT{P0})", // Hiển thị: "Dell (18%)"
-
-                    // ▼▼▼ THÊM DÒNG NÀY ĐỂ LIÊN KẾT VỚI BẢNG CHÚ THÍCH ▼▼▼
                     LegendText = "#VALX (#VALY chiếc)" // Hiển thị trong chú thích: "Dell (20 chiếc)"
                 };
 
@@ -160,7 +143,6 @@ namespace QuanLyBanLaptop_GUI
         }
 
         // Hàm tải bảng chi tiết
-        // Hàm tải bảng chi tiết
         private void LoadStockDetails(string brand)
         {
             // 1. Lấy dữ liệu
@@ -168,8 +150,6 @@ namespace QuanLyBanLaptop_GUI
 
             // 2. Gán DataSource
             dgvInventoryDetails.DataSource = details;
-
-            // (XÓA HẾT CÁC DÒNG dgvInventoryDetails.Columns["..."].HeaderText = ... Ở ĐÂY)
         }
     }
 }

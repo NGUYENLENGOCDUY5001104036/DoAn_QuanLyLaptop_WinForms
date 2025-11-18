@@ -16,20 +16,18 @@ namespace QuanLyBanLaptop_GUI
         private string _reportPath;
         private object _dataSource;
         private string _dataSetName;
-        // BIẾN MỚI:
         private List<ReportParameter> _parameters;
 
-        // SỬA LẠI HÀM KHỞI TẠO
+
         public frmReportViewer(string reportPath, string dataSetName, object dataSource, List<ReportParameter> parameters = null)
         {
             InitializeComponent();
             _reportPath = reportPath;
             _dataSource = dataSource;
             _dataSetName = dataSetName;
-            _parameters = parameters; // Lưu tham số
+            _parameters = parameters; 
         }
 
-        // SỬA LẠI HÀM FORM_LOAD
         private void frmReportViewer_Load(object sender, EventArgs e)
         {
             try
@@ -39,11 +37,8 @@ namespace QuanLyBanLaptop_GUI
                 this.reportViewer1.LocalReport.DataSources.Clear();
                 this.reportViewer1.LocalReport.DataSources.Add(rds);
 
-                // THÊM ĐOẠN NÀY:
-                // Nếu có tham số nào được truyền vào
                 if (_parameters != null && _parameters.Count > 0)
                 {
-                    // Set các tham số đó cho báo cáo
                     this.reportViewer1.LocalReport.SetParameters(_parameters);
                 }
 

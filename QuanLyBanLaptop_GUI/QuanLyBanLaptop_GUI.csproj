@@ -334,6 +334,7 @@
     <EmbeddedResource Include="Reports\BaoCaoDoanhThu.rdlc" />
     <EmbeddedResource Include="Reports\BaoCaoTonKho.rdlc" />
     <EmbeddedResource Include="Reports\BaoCaoTopSanPham.rdlc" />
+    <EmbeddedResource Include="Reports\Report1.rdlc" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\QuanLyBanLaptop_DAL.InventoryViewModel.datasource" />
     <None Include="Properties\DataSources\QuanLyBanLaptop_DAL.OrderViewModel.datasource" />

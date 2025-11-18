@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 namespace QuanLyBanLaptop_DAL
 {
-    // THÊM "public" VÀO ĐÂY
     public class OrderViewModel
     {
         public int OrderID { get; set; }
@@ -15,6 +14,6 @@ namespace QuanLyBanLaptop_DAL
 
         // Dữ liệu Join
         public string CustomerName { get; set; }
-        public string UserName { get; set; } // Tên nhân viên
+        public string UserName { get; set; }
     }
 }

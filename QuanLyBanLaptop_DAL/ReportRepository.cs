@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
-using System.Data.Linq; // Đảm bảo bạn có using này
+using System.Data.Linq; 
 
 namespace QuanLyBanLaptop_DAL
 {
-    public class ReportRepository // Đã thêm "public"
+    public class ReportRepository 
     {
         private string connectionString;
         public ReportRepository()
@@ -16,7 +16,7 @@ namespace QuanLyBanLaptop_DAL
             connectionString = ConfigurationManager.ConnectionStrings["QuanLyBanLaptop_DAL.Properties.Settings.QuanLyBanLaptopConnectionString"].ConnectionString;
         }
 
-        // Hàm 1: Lấy doanh thu (từ bước trước)
+        // Hàm 1: Lấy doanh thu 
         public List<SalesDataPoint> GetSalesByDate(DateTime startDate, DateTime endDate)
         {
             using (DatabaseDataContext context = new DatabaseDataContext(connectionString))
@@ -35,7 +35,7 @@ namespace QuanLyBanLaptop_DAL
             }
         }
 
-        // Hàm 2: Lấy tồn kho (từ bước trước)
+        // Hàm 2: Lấy tồn kho 
         public List<InventoryDataPoint> GetStockByBrand()
         {
             using (DatabaseDataContext context = new DatabaseDataContext(connectionString))
@@ -52,14 +52,12 @@ namespace QuanLyBanLaptop_DAL
             }
         }
 
-        // =======================================================
-        // HÀM MỚI 3: Lấy Báo cáo Tồn kho (ĐÃ SỬA LỖI LINQ)
-        // =======================================================
+        // HÀM MỚI 3: Lấy Báo cáo Tồn kho 1
         public List<InventoryViewModel> GetInventoryReport()
         {
             using (DatabaseDataContext context = new DatabaseDataContext(connectionString))
             {
-                // LINQ đã sửa:
+                // LINQ 
                 // 1. Bắt đầu từ Products
                 // 2. Đếm số lượng 'IN_STOCK' trong DeviceUnits bằng 1 truy vấn con (subquery)
                 var query = from p in context.Products
@@ -70,12 +68,10 @@ namespace QuanLyBanLaptop_DAL
                                 Brand = p.Brand,
                                 SKU = p.SKU,
                                 ReorderLevel = p.ReorderLevel.GetValueOrDefault(0),
-
-                                // SỬA LỖI: Dùng truy vấn con (subquery) để đếm
                                 StockCount = context.DeviceUnits.Count(du => du.ProductID == p.ProductID && du.Status == "IN_STOCK")
                             };
 
-                // 3. Tính toán Trạng thái (phần này giữ nguyên)
+                // 3. Tính toán Trạng thái 
                 List<InventoryViewModel> report = query.ToList();
                 foreach (var item in report)
                 {
@@ -89,14 +85,12 @@ namespace QuanLyBanLaptop_DAL
             }
         }
 
-        // ... (Bạn đã có hàm GetInventoryReport() ở trên) ...
-
         // HÀM MỚI 4: Lấy Top (N) Sản phẩm Bán chạy nhất
         public List<TopProductViewModel> GetTopSellingProducts(int topN)
         {
             using (DatabaseDataContext context = new DatabaseDataContext(connectionString))
             {
-                // Dùng LINQ:
+                // LINQ:
                 // 1. Vào bảng OrderDetails
                 var query = from od in context.OrderDetails
                                 // 2. Gom nhóm theo ProductID

@@ -46,7 +46,6 @@ namespace QuanLyBanLaptop_BUS
         }
 
         // --- HÀM 4: THÊM MỚI (VỚI VALIDATION) ---
-        // 2. Sửa hàm THÊM USER
         public bool AddUser(User user)
         {
             if (repo.IsUsernameTaken(user.Username))
@@ -63,7 +62,6 @@ namespace QuanLyBanLaptop_BUS
         }
 
         // --- HÀM 5: CẬP NHẬT (VỚI VALIDATION) ---
-        // 3. Sửa hàm CẬP NHẬT USER
         public bool UpdateUser(User user)
         {
             // Nếu có nhập mật khẩu mới thì mã hóa, không thì thôi
@@ -95,9 +93,8 @@ namespace QuanLyBanLaptop_BUS
             return true;
         }
 
-        // ... (Bạn đã có hàm DeleteUser() ở trên) ...
 
-        // HÀM MỚI: Cho GUI gọi để đổi mật khẩu
+        // HÀM MỚI 7: Cho GUI gọi để đổi mật khẩu
         public bool ChangePassword(int userID, string oldPass, string newPass, string confirmPass)
         {
             if (string.IsNullOrWhiteSpace(oldPass) || string.IsNullOrWhiteSpace(newPass))
@@ -111,9 +108,8 @@ namespace QuanLyBanLaptop_BUS
 
             return repo.ChangePassword(userID, hashedOldPass, hashedNewPass);
         }
-        // ... (Bạn đã có hàm ChangePassword() ở trên) ...
 
-        // HÀM MỚI: Cho GUI gọi để cập nhật thông tin
+        // HÀM MỚI 8: Cho GUI gọi để cập nhật thông tin
         public bool UpdateProfileInfo(int userID, string newFullName, string newAvatarPath)
         {
             if (string.IsNullOrWhiteSpace(newFullName))
@@ -126,15 +122,14 @@ namespace QuanLyBanLaptop_BUS
             return true;
         }
 
-        // ... (Bạn đã có hàm ChangePassword() ở trên) ...
 
-        // HÀM MỚI 1: Tìm User (gọi DAL)
+        // HÀM MỚI 9: Tìm User (gọi DAL)
         public User GetUserByUsernameAndEmail(string username, string email)
         {
             return repo.GetUserByUsernameAndEmail(username, email);
         }
 
-        // HÀM MỚI 2: GỬI EMAIL OTP (Hàm chính)
+        // HÀM MỚI 10: GỬI EMAIL OTP (Hàm chính)
         public bool SendPasswordResetOTP(User user)
         {
             try
@@ -148,10 +143,9 @@ namespace QuanLyBanLaptop_BUS
                 client.EnableSsl = true;
                 client.UseDefaultCredentials = false;
 
-                // (!!! THAY THÔNG TIN CỦA BẠN VÀO ĐÂY !!!)
+
                 string gmailEmail = "nguyenlengocduy0312@gmail.com";
                 string appPassword = "tofkkmkqopimtmph"; //13 số 
-                // (!!! KHÔNG PHẢI MẬT KHẨU GMAIL CỦA BẠN !!!)
 
                 client.Credentials = new NetworkCredential(gmailEmail, appPassword);
 
@@ -180,7 +174,7 @@ namespace QuanLyBanLaptop_BUS
             }
         }
 
-        // HÀM MỚI 3: Xác minh OTP
+        // HÀM MỚI 11: Xác minh OTP
         public bool VerifyOTP(string username, string otp)
         {
             if (otpStore.ContainsKey(username) && otpStore[username] == otp)
@@ -191,7 +185,24 @@ namespace QuanLyBanLaptop_BUS
             return false;
         }
 
-        // HÀM MỚI 4: Đặt lại Mật khẩu (gọi DAL)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // HÀM MỚI 12: Đặt lại Mật khẩu (gọi DAL)
         public void ResetPassword(int userID, string newPassword, string confirmPassword)
         {
             if (newPassword != confirmPassword) throw new Exception("Không khớp.");

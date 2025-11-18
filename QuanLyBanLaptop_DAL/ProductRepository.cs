@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//THÊM DÒNG NÀY (để đọc file app.config)
-using System.Configuration;
+using System.Configuration; //(để đọc file app.config)
 
-// Đây là namespace của dự án DAL
+
 namespace QuanLyBanLaptop_DAL
 {
-    // Chúng ta sẽ dùng các lớp (như Product) mà file .dbml đã tự tạo ra
 
     public class ProductRepository
     {
@@ -20,22 +18,14 @@ namespace QuanLyBanLaptop_DAL
         public ProductRepository()
         {
             // LẤY chuỗi kết nối TỪ FILE APP.CONFIG
-            // Tên "..." phải khớp 100% với tên trong file app.config của bạn
             connectionString = ConfigurationManager.ConnectionStrings["QuanLyBanLaptop_DAL.Properties.Settings.QuanLyBanLaptopConnectionString"].ConnectionString;
         }
 
-        //Viết hàm lấy tất cả sản phẩm (theo yêu cầu của frmProductList)
-        // Đây chính là truy vấn LINQ!
-
         public List<Product> GetAllProducts()
         {
-            // Dùng 'using' VỚI CHUỖI KẾT NỐI
-            // (Không dùng new DatabaseDataContext() rỗng nữa)
             using (DatabaseDataContext context = new DatabaseDataContext(connectionString))
             {
-                // context.Products chính là bảng Products
-                // .ToList() sẽ thực thi câu lệnh LINQ và trả về 1 danh sách
-                return context.Products.ToList();
+                return context.Products.ToList(); // linq trả về 1 danh sách
             }
         }
 
@@ -44,7 +34,7 @@ namespace QuanLyBanLaptop_DAL
         {
             using (DatabaseDataContext context = new DatabaseDataContext(connectionString))
             {
-                // Dùng LINQ để:
+                //LINQ
                 // 1. Chọn cột Brand
                 // 2. Lấy các giá trị duy nhất (Distinct)
                 // 3. Bỏ qua giá trị null
@@ -57,8 +47,6 @@ namespace QuanLyBanLaptop_DAL
                               .ToList();
             }
         }
-        
-        // ... (Bạn đã có hàm GetUniqueBrands() ở trên) ...
 
         // HÀM MỚI: Tìm kiếm sản phẩm
         public List<Product> SearchProducts(string name, string brand)
@@ -66,11 +54,9 @@ namespace QuanLyBanLaptop_DAL
             using (DatabaseDataContext context = new DatabaseDataContext(connectionString))
             {
                 // 1. Lấy tất cả sản phẩm làm truy vấn gốc
-                // .AsQueryable() cho phép chúng ta "xây dựng" câu truy vấn
                 var query = context.Products.AsQueryable();
 
                 // 2. Lọc theo Tên (nếu người dùng có nhập tên)
-                // Dùng .Contains() giống như LIKE '%name%' trong SQL
                 if (!string.IsNullOrEmpty(name))
                 {
                     query = query.Where(p => p.Name.Contains(name));
@@ -87,7 +73,6 @@ namespace QuanLyBanLaptop_DAL
             }
         }
 
-        // ... (Bạn đã có hàm SearchProducts() ở trên) ...
 
         // HÀM MỚI: Thêm một sản phẩm mới vào CSDL
         public void AddProduct(Product product)
@@ -102,7 +87,6 @@ namespace QuanLyBanLaptop_DAL
             }
         }
 
-        // ... (Bạn đã có hàm AddProduct() ở trên) ...
 
         // HÀM MỚI: Xóa một sản phẩm
         public void DeleteProduct(int productID)
@@ -117,17 +101,15 @@ namespace QuanLyBanLaptop_DAL
                     // 2. Đánh dấu để xóa
                     context.Products.DeleteOnSubmit(productToDelete);
 
-                    // 3. Thực thi lệnh DELETE
-                    // Lưu ý: Nếu sản phẩm này đã dính vào 'OrderDetails' hoặc 'DeviceUnits'
-                    // CSDL (FOREIGN KEY) sẽ ném lỗi, và chúng ta sẽ bắt lỗi này ở tầng GUI.
+                    // 3. Thực thi lệnh DELET
                     context.SubmitChanges();
                 }
             }
         }
 
-        // ... (Bạn đã có hàm DeleteProduct() ở trên) ...
 
-        // HÀM MỚI 1: Lấy 1 sản phẩm duy nhất bằng ID
+
+        // HÀM MỚI : Lấy 1 sản phẩm duy nhất bằng ID
         public Product GetProductById(int productID)
         {
             using (DatabaseDataContext context = new DatabaseDataContext(connectionString))
@@ -137,7 +119,7 @@ namespace QuanLyBanLaptop_DAL
             }
         }
 
-        // HÀM MỚI 2: Cập nhật một sản phẩm đã có
+        // HÀM MỚI : Cập nhật một sản phẩm đã có
         public void UpdateProduct(Product productToUpdate)
         {
             using (DatabaseDataContext context = new DatabaseDataContext(connectionString))
@@ -161,18 +143,11 @@ namespace QuanLyBanLaptop_DAL
                     existingProduct.CostPrice = productToUpdate.CostPrice;
                     existingProduct.UnitPrice = productToUpdate.UnitPrice;
                     existingProduct.WarrantyMonths = productToUpdate.WarrantyMonths;
-                    // (Chúng ta không cập nhật CreatedAt)
 
                     // 3. Thực thi lệnh UPDATE
                     context.SubmitChanges();
                 }
             }
         }
-        // (Sau này bạn sẽ thêm các hàm khác vào đây, ví dụ:)
-        // public Product GetProductById(int id) { ... }
-        // public void AddProduct(Product p) { ... }
-        // public void UpdateProduct(Product p) { ... }
-        // public void DeleteProduct(int id) { ... }
-
     }
 }

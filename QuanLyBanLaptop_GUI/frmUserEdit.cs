@@ -16,7 +16,8 @@ namespace QuanLyBanLaptop_GUI
     {
         private UserBUS userBUS;
         private int? currentUserID = null;
-
+        // BIẾN MỚI: Dùng để lưu chữ placeholder
+        private string passwordPlaceholder = "(Để trống nếu không muốn đổi)";
         // Constructor 1: Thêm mới
         public frmUserEdit()
         {
@@ -64,6 +65,7 @@ namespace QuanLyBanLaptop_GUI
                 txtFullName.Text = user.FullName;
                 txtUsername.Text = user.Username;
                 cboRole.SelectedItem = user.Role;
+                txtEmail.Text = user.Email;
 
                 // SỬA LỖI: Dùng hàm txtPassword_Leave để gán placeholder
                 txtPassword_Leave(null, null);
@@ -78,9 +80,10 @@ namespace QuanLyBanLaptop_GUI
         }
 
         // Nút Lưu (NHỚ NỐI DÂY!)
+        // Nút Lưu (ĐÃ CẬP NHẬT)
         private void btnSave_Click(object sender, EventArgs e)
         {
-            // 1. Validation
+            // 1. Validation (Kiểm tra dữ liệu)
             if (string.IsNullOrWhiteSpace(txtUsername.Text) || cboRole.SelectedItem == null)
             {
                 MessageBox.Show("Tên đăng nhập và Quyền không được để trống.", "Lỗi");
@@ -91,12 +94,20 @@ namespace QuanLyBanLaptop_GUI
             {
                 if (currentUserID == null) // Chế độ THÊM MỚI
                 {
+                    // BẮT BUỘC nhập mật khẩu khi thêm mới
+                    if (string.IsNullOrWhiteSpace(txtPassword.Text) || txtPassword.Text == passwordPlaceholder)
+                    {
+                        MessageBox.Show("Mật khẩu không được để trống khi tạo mới.", "Lỗi");
+                        return;
+                    }
 
                     User newUser = new User
                     {
                         FullName = txtFullName.Text.Trim(),
                         Username = txtUsername.Text.Trim(),
-                        Role = cboRole.SelectedItem.ToString()
+                        PasswordHash = txtPassword.Text, // BUS sẽ tự mã hóa
+                        Role = cboRole.SelectedItem.ToString(),
+                        Email = txtEmail.Text.Trim() // <-- LẤY EMAIL MỚI
                     };
                     userBUS.AddUser(newUser);
                     MessageBox.Show("Thêm người dùng mới thành công!");
@@ -108,8 +119,9 @@ namespace QuanLyBanLaptop_GUI
                         UserID = currentUserID.Value,
                         FullName = txtFullName.Text.Trim(),
                         Username = txtUsername.Text.Trim(),
-                        // SỬA LỖI: Gửi chuỗi rỗng nếu là placeholder
-                        Role = cboRole.SelectedItem.ToString()
+                        PasswordHash = (txtPassword.Text == passwordPlaceholder) ? "" : txtPassword.Text, // BUS sẽ tự mã hóa nếu không rỗng
+                        Role = cboRole.SelectedItem.ToString(),
+                        Email = txtEmail.Text.Trim() // <-- LẤY EMAIL MỚI
                     };
                     userBUS.UpdateUser(updatedUser);
                     MessageBox.Show("Cập nhật thông tin thành công!");
@@ -123,7 +135,6 @@ namespace QuanLyBanLaptop_GUI
                 MessageBox.Show($"Lỗi khi lưu: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         // =======================================================
         // ▼▼▼ THÊM 2 HÀM SỰ KIỆN MỚI NÀY VÀO ▼▼▼
         // =======================================================

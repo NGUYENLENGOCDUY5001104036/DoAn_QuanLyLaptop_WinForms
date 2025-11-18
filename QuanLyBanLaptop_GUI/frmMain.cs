@@ -14,17 +14,15 @@ namespace QuanLyBanLaptop_GUI
 {
     public partial class frmMain : Form
     {
-        private ReportBUS reportBUS; // <-- Thêm dòng này
+        private ReportBUS reportBUS; 
         public frmMain()
         {
             InitializeComponent();
 
-            reportBUS = new ReportBUS(); // <-- Thêm dòng này
+            reportBUS = new ReportBUS(); 
 
             this.Load += new System.EventHandler(this.frmMain_Load);
         }
-
-        // ... (nằm bên dưới hàm frmMain()) ...
 
         // HÀM MỚI: Tự động mở Dashboard khi frmMain được tải
         private void frmMain_Load(object sender, EventArgs e)
@@ -39,17 +37,10 @@ namespace QuanLyBanLaptop_GUI
                 mniTaoPhieuNhap.Visible = false;     // Nhập kho
                 mniQuanLySanPham.Visible = false;  // Sửa giá
                 báoCáoToolStripMenuItem.Visible = false; // Xem báo cáo
-
-                // (Chúng ta sẽ thêm 'mniQuanLyNguoiDung' sau và cũng ẩn nó ở đây)
-                // THÊM DÒNG NÀY:
                 mniQuanLyNhaCungCap.Visible = false;
-
-                // THÊM DÒNG NÀY:
                 mniSettings.Visible = false;
             }
-            // (Nếu là Admin, mặc định mọi thứ đều Visible = true)
 
-            // ... (code chào mừng) ...
 
             // Phân quyền
             if (Program.CurrentUser.Role == "Staff")
@@ -57,67 +48,56 @@ namespace QuanLyBanLaptop_GUI
                 mniTaoPhieuNhap.Visible = false;
                 mniQuanLySanPham.Visible = false;
                 báoCáoToolStripMenuItem.Visible = false;
-
-                // THÊM DÒNG NÀY:
                 mniQuanLyNguoiDung.Visible = false;
             }
-
-            // ... (code mở Dashboard) ...
-
-            // Tự động mở Dashboard
             OpenChildForm(new frmDashboard());
         }
 
-        // --- HÀM TRỢ GIÚP "THÔNG MINH" ---
-        // Hàm này kiểm tra xem 1 form đã mở chưa
-        // Nếu đã mở, nó sẽ "lôi" form đó lên trên
-        // Nếu chưa, nó sẽ tạo form mới
         private void OpenChildForm(Form childForm)
         {
-            // 1. Kiểm tra xem form đã tồn tại trong MdiChildren chưa
+
             foreach (Form form in this.MdiChildren)
             {
                 if (form.GetType() == childForm.GetType())
                 {
-                    // Nếu đã tồn tại, "lôi" nó lên
+
                     form.Activate();
                     return;
                 }
             }
 
             // 2. Nếu chưa tồn tại, tạo nó
-            childForm.MdiParent = this; // Gán "cha" cho nó
-            childForm.Show(); // Hiển thị form
+            childForm.MdiParent = this; 
+            childForm.Show(); 
         }
 
         // --- CÁC SỰ KIỆN CLICK MENU ---
-        // (Cách tạo: Mở [Design], nhấp đúp vào từng mục menu)
 
-        // 1. Nút "Tạo Đơn Bán Hàng"
+        // "Tạo Đơn Bán Hàng"
         private void mniTaoDonHang_Click(object sender, EventArgs e)
         {
             OpenChildForm(new frmOrderCreate());
         }
 
-        // 2. Nút "Quản lý Sản phẩm"
+        // "Quản lý Sản phẩm"
         private void mniQuanLySanPham_Click(object sender, EventArgs e)
         {
             OpenChildForm(new frmProductList());
         }
 
-        // 3. Nút "Quản lý Kho (Serial)"
+        // "Quản lý Kho (Serial)"
         private void mniQuanLyKho_Click(object sender, EventArgs e)
         {
             OpenChildForm(new frmDeviceUnits());
         }
 
-        // 4. Nút "Quản lý Khách hàng"
+        // "Quản lý Khách hàng"
         private void mniQuanLyKhachHang_Click(object sender, EventArgs e)
         {
             OpenChildForm(new frmCustomerManagement());
         }
 
-        // 5. Nút "Thoát"
+        // "Thoát"
         private void mniThoat_Click(object sender, EventArgs e)
         {
             Application.Exit();

@@ -7,8 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using QuanLyBanLaptop_BUS; // Thêm BUS
-using QuanLyBanLaptop_DAL; // Thêm DAL
+using QuanLyBanLaptop_BUS;
+using QuanLyBanLaptop_DAL; 
 
 namespace QuanLyBanLaptop_GUI
 {
@@ -22,14 +22,12 @@ namespace QuanLyBanLaptop_GUI
         }
 
         // Nút Thoát
-        // (Cách tạo: Mở [Design], nhấp đúp vào nút "Thoát")
         private void btnExit_Click(object sender, EventArgs e)
         {
-            Application.Exit(); // Thoát toàn bộ chương trình
+            Application.Exit(); 
         }
 
         // Nút Đăng nhập
-        // (Cách tạo: Mở [Design], nhấp đúp vào nút "Đăng nhập")
         private void btnLogin_Click(object sender, EventArgs e)
         {
             string username = txtUsername.Text.Trim();
@@ -40,13 +38,12 @@ namespace QuanLyBanLaptop_GUI
             // Kiểm tra kết quả
             if (user != null)
             {
-                // ĐĂNG NHẬP THÀNH CÔNG
+                //ĐĂNG NHẬP THÀNH CÔNG
                 MessageBox.Show($"Đăng nhập thành công! Xin chào {user.FullName}.", "Thông báo");
 
-                // =======================================================
+  
                 // LƯU USER VÀO BIẾN TOÀN CỤC
                 Program.CurrentUser = user;
-                // =======================================================
 
                 // (Không cần MessageBox ở đây nữa, frmMain sẽ chào)
                 this.DialogResult = DialogResult.OK;

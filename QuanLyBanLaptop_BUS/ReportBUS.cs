@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using QuanLyBanLaptop_DAL; // Thêm using
+using QuanLyBanLaptop_DAL; 
 
 namespace QuanLyBanLaptop_BUS
 {
@@ -19,16 +19,12 @@ namespace QuanLyBanLaptop_BUS
         {
             return repo.GetSalesByDate(startDate, endDate);
         }
-
-        // ... (Bạn đã có hàm GetSalesByDate() ở trên) ...
-
         // HÀM MỚI 2: Cho GUI gọi để lấy tồn kho
         public List<InventoryDataPoint> GetStockByBrand()
         {
             return repo.GetStockByBrand();
         }
 
-        // ... (Bạn đã có hàm GetStockByBrand() ở trên) ...
 
         // HÀM MỚI 3: Cho GUI gọi (có Filter)
         public List<InventoryViewModel> GetInventoryReport(string brand, bool reorderOnly)
@@ -53,8 +49,6 @@ namespace QuanLyBanLaptop_BUS
             return fullReport;
         }
 
-        // ... (Bạn đã có hàm GetInventoryReport() ở trên) ...
-
         // HÀM MỚI 4: Cho GUI gọi
         public List<TopProductViewModel> GetTopSellingProducts(int topN)
         {
@@ -65,7 +59,7 @@ namespace QuanLyBanLaptop_BUS
         {
             return repo.GetWarrantyProof(serialNumber);
         }
-        // HÀM MỚI 5: Cho GUI gọi
+        // HÀM MỚI 6: Cho GUI gọi
         public List<InventoryDetailViewModel> GetStockDetailsByBrand(string brand)
         {
             return repo.GetStockDetailsByBrand(brand);

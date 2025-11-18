@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.Data.Linq; // <-- THÊM DÒNG NÀY
+using System.Data.Linq; // linq
 
 namespace QuanLyBanLaptop_DAL
 {
@@ -39,9 +39,6 @@ namespace QuanLyBanLaptop_DAL
                 return query.ToList();
             }
         }
-
-        // ... (Bạn đã có hàm GetAllDeviceUnits() ở trên) ...
-
         // HÀM MỚI: Lọc danh sách Device Units
         public List<DeviceUnitViewModel> SearchDeviceUnits(int productID, string status, string serialNumber)
         {
@@ -87,7 +84,6 @@ namespace QuanLyBanLaptop_DAL
             }
         }
 
-        // ... (Bạn đã có hàm SearchDeviceUnits() ở trên) ...
 
         // HÀM MỚI: Cập nhật trạng thái cho 1 serial
         public void UpdateDeviceStatus(int unitID, string newStatus)
@@ -102,7 +98,6 @@ namespace QuanLyBanLaptop_DAL
                     unit.Status = newStatus;
 
                     // 3. (Nghiệp vụ bổ sung): Nếu chuyển về "IN_STOCK"
-                    // thì xóa thông tin khách hàng/ngày bán cũ (nếu có)
                     if (newStatus == "IN_STOCK")
                     {
                         unit.SoldDate = null;
@@ -117,7 +112,7 @@ namespace QuanLyBanLaptop_DAL
             }
         }
 
-        // ... (Bạn đã có hàm UpdateDeviceStatus() ở trên) ...
+
 
         // HÀM MỚI: Lấy toàn bộ lịch sử của 1 serial
         public UnitHistoryViewModel GetUnitHistory(int unitID)
@@ -148,7 +143,6 @@ namespace QuanLyBanLaptop_DAL
             }
         }
 
-        // ... (Bạn đã có các hàm UpdateDeviceStatus, GetUnitHistory...) ...
 
         // HÀM MỚI: Lấy các serial CÒN TRONG KHO của 1 sản phẩm
         public List<DeviceUnit> GetAvailableSerialsByProduct(int productID)
